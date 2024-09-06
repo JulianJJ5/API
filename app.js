@@ -18,7 +18,7 @@ app.use(cors({
         'https://front-knk1.onrender.com',
         'http://localhost:5001'
     ],
-    credentials: true,
+    credentials: false,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization', 'token']
         }));
