@@ -14,13 +14,14 @@ router.post('/crearusuario',[
     check('email').custom(UserHelper.existeEmail),
     check('contrasena', 'El campo de contraseña es obligatorio').notEmpty(),
     check('nombre','El nombre es obligatorio').notEmpty(),
+    validarJWT,
     validarCampos
 ], httpUsuarios.postCrearUsuario);
 
 router.post('/loginusuario', validarCampos, httpUsuarios.postLoginUsuario);
 
 router.put('/cambiarcontrasena/:id', [
-    // validarJWT,
+    validarJWT,
      validarCampos
 ], httpUsuarios.putCambiarContrasena);
 
@@ -32,21 +33,20 @@ router.put('/actualizarusuario/:id', [
 router.put('/activarusuario/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(UserHelper.existeUsuarioID),
-    // validarJWT,
+    validarJWT,
      validarCampos
 ], httpUsuarios.putActivarUsuario);
 
 router.put('/desactivarusuario/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(UserHelper.existeUsuarioID),
-    // validarJWT,
      validarCampos
 ], httpUsuarios.putDesactivarUsuario);
 
 router.delete('/eliminarusuario/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(UserHelper.existeUsuarioID),
-    // validarJWT,
+    validarJWT,
      validarCampos
 ], httpUsuarios.deleteEliminarUsuario);
 

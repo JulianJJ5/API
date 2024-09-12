@@ -15,12 +15,22 @@ router.post('/crearficha',[
     check('codigo', 'El codigo ingresado ya existe').custom(aprendicesHelper.Codigo),
     check('codigo', 'Todos los datos del formulario son obligatorios!').notEmpty(),
     check('nombre','ingrese su nombre').isEmpty(),
-    check('nombre')
+validarJWT,
+validarCampos
 ], httpFichas.postCrearFicha);
 
-router.put('/actualizarficha/:id', httpFichas.putActualizarFicha);
-router.put('/activarficha/:id', httpFichas.putActivarFichas);
-router.put('/desactivarficha/:id', httpFichas.putDesactivarFichas);
+router.put('/actualizarficha/:id',[
+    validarJWT,
+    validarCampos
+], httpFichas.putActualizarFicha);
+router.put('/activarficha/:id',[
+    validarJWT,
+validarCampos
+], httpFichas.putActivarFichas);
+router.put('/desactivarficha/:id',[
+    validarJWT,
+validarCampos
+], httpFichas.putDesactivarFichas);
 
 
 module.exports = router

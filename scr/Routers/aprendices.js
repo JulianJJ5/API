@@ -3,6 +3,7 @@ const { check } = require(`express-validator`);
 const { validarCampos } = require(`../middlewares/validar-campos.js`);
 const { aprendicesHelper } = require(`../helpers/aprendices.js`);
 const { httpAprendiz } = require(`../Controllers/aprendices.js`);
+const { validarJWT } = require("../middlewares/validarJWT.js");
 const router = Router()
 
 router.get('/listartodo', httpAprendiz.getListarTodo);
@@ -35,18 +36,21 @@ router.put('/actualizaraprendiz/:id',[
     check('nombre', 'El nombre es obligatorio').notEmpty(),
     check('estado', 'El estado solo debe contener caracteres numéricos').isNumeric(),
     check('id_ficha', 'La ficha a la que pertenece el aprendiz es obligatoria').notEmpty(),
-    validarCampos], httpAprendiz.putActualizarAprendiz);
+    validarCampos,
+validarJWT], httpAprendiz.putActualizarAprendiz);
 
 router.put('/activaraprendiz/:id', [
     check('id', 'El ID no es valido').isMongoId(),
     check('id', 'El ID es obligatorio').notEmpty(),
-    validarCampos
+    validarCampos,
+    validarJWT
 ], httpAprendiz.putActivarAprendiz);
 
 router.put('/desactivaraprendiz/:id', [
     check('id', 'El ID no es valido').isMongoId(),
     check('id', 'El ID es obligatorio').notEmpty(),
-    validarCampos
+    validarCampos,
+    validarJWT
 ], httpAprendiz.putDesactivarAprendiz);
 
 
