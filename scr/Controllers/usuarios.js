@@ -59,6 +59,7 @@ const httpUsuarios = {
     
             // Responder con el usuario y el token
             res.json({
+                nombre: usuario.nombre,
                 usuario: usuario,
                 token
             });
