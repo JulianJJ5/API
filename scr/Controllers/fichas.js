@@ -23,6 +23,8 @@ const httpFichas = {
     },
 
     postCrearFicha: async (req, res) => {
+        console.log("hola");
+        
         const ficha = new Fichas({
             codigo: req.body.codigo,
             nombre: req.body.nombre

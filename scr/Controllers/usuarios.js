@@ -13,7 +13,7 @@ const httpUsuarios = {
 
     postCrearUsuario: async (req, res) => {
         try{
-            console.log('datos req.body', req.body); // Para ver qué datos están llegando
+            console.log('datos req.body', req.body);
             const { nombre, email, contrasena } = req.body;
             const usuario = new Usuarios({ email, contrasena, nombre });
             const salt = bcryptjs.genSaltSync(10);
@@ -59,7 +59,6 @@ const httpUsuarios = {
     
             // Responder con el usuario y el token
             res.json({
-                nombre: usuario.nombre,
                 usuario: usuario,
                 token
             });

@@ -37,6 +37,15 @@ const httpBitacora = {
         }
     },
 
+    getListarBitacorasPorEstado: async (req, res) => {
+        try {
+            const bitacora = await Bitacoras.find({ estado: "Asistió" });
+            res.json({ bitacora });
+        } catch (error) {
+            res.status(400).json({ error });
+        }
+    },
+
     getListarPorAprendiz: async (req, res) => {
         const { id_aprendiz } = req.params;
         try {
@@ -52,17 +61,13 @@ const httpBitacora = {
     postCrearBitacora: async (req, res) => {
         try {
             const { id_aprendiz, fecha } = req.body;
-    
-            // Validación de entrada
-            if (!id_aprendiz || !fecha) {
+                if (!id_aprendiz || !fecha) {
                 return res.status(400).json({ message: 'Los campos id_aprendiz y fecha son obligatorios.' });
             }
-    
             const nuevaBitacora = new Bitacoras({
                 id_aprendiz,
                 fecha
             });
-    
             const bitacoraGuardada = await nuevaBitacora.save();
             res.status(201).json(bitacoraGuardada);
         } catch (error) {
@@ -70,13 +75,13 @@ const httpBitacora = {
         }
     },
 
-    putActualizarBitacora: async (req, res) => {
+    putActualizarEstadoBitacora: async (req, res) => {
         const { id } = req.params;
-        const { id_aprendiz, fecha } = req.body;
+        const { estado } = req.body;
         try {
             const bitacoraActualizada = await Bitacoras.findByIdAndUpdate(
                 id,
-                { id_aprendiz, fecha },
+                { estado},
                 { new: true }
             );
             if (!bitacoraActualizada) {
