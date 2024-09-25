@@ -11,12 +11,12 @@ router.get('/listartodo', [
     validarCampos
 ], httpBitacora.getListarTodo);
 
-router.get('/listarporfechayficha/:id_ficha', [
-    validarJWT,
+router.get('/listarporfichayporfecha', [
     check('id_ficha', 'El ID de la ficha no es válido').isMongoId(),
     check('id_ficha').custom(bitacoraHelper.existeCodigoFicha),
     check('fecha', 'La fecha es obligatoria').notEmpty(),
     check('fecha', 'La fecha debe ser una fecha válida').isISO8601(),
+    validarJWT,
     validarCampos
 ], httpBitacora.getListarPorFechaYFicha);
 

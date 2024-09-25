@@ -1,36 +1,42 @@
 const Bitacoras = require('../Models/Bitacora.js');
 const Aprendices = require('../Models/Aprendices.js');
+const { ObjectId } = require('mongoose').Types;
 
 const httpBitacora = {
-    getListarTodo: async (req, res) => {
-        try {
-            const bitacoras = await Bitacoras.find();
-            res.json({ bitacoras });
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    },
+        getListarTodo: async (req, res) => {
+            try {
+                const bitacoras = await Bitacoras.find();
+                res.json({ bitacoras });
+            } catch (error) {
+                res.status(400).json({ error: error.message });
+            }
+        },
 
-    getListarPorFechaYFicha: async (req, res) => {
-        const { id_ficha } = req.body;
-        const { fecha } = req.query; // La fecha es tomada del query string
-        try {
-            // Buscar aprendices por ficha
-            const aprendices = await Aprendices.find({ id_ficha });
-            const ids_Aprendiz = aprendices.map(aprendiz => aprendiz._id);
-    
-            // Buscar bitácoras que coincidan con la fecha y los aprendices de la ficha
-            const bitacoras = await Bitacoras.find({
-                fecha,
-                id_aprendiz: { $in: ids_Aprendiz },
-            });
-    
-            res.json(bitacoras);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-    
+
+        getListarPorFechaYFicha: async (req, res) => {
+            try {
+                const { id_ficha, fecha } = req.query;
+        
+                // Verificar que el id_ficha sea un ObjectId válido
+                if (!ObjectId.isValid(id_ficha)) {
+                    return res.status(400).json({ error: 'ID de ficha no válido' });
+                }
+        
+                // Realizar la búsqueda en la base de datos
+                const aprendices = await Aprendices.find({ ficha: id_ficha });
+                const ids_Aprendiz = aprendices.map(aprendiz => aprendiz._id);
+                
+                const bitacoras = await Bitacoras.find({
+                    aprendiz: { $in: ids_Aprendiz },
+                    fecha: { $gte: fecha } // Asumiendo que solo usas una fecha
+                });
+        
+                res.json({ bitacoras });
+            } catch (error) {
+                res.status(400).json({ error });
+            }
+        },
+
     getListarBitacorasPorEstado: async (req, res) => {
         try {
             const bitacora = await Bitacoras.find({ estado: "Asistió" });
