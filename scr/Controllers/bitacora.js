@@ -11,32 +11,26 @@ const httpBitacora = {
         }
     },
 
-    getListarPorFecha: async (req, res) => {
-        const { fecha } = req.body;
+    getListarPorFechaYFicha: async (req, res) => {
+        const { id_ficha } = req.body;
+        const { fecha } = req.query; // La fecha es tomada del query string
         try {
-            const bitacora = await Bitacoras.find({ fecha });
-            res.json(bitacora);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
-    },
-
-    getListarPorFicha: async (req, res) => {
-        const { id_ficha } = req.params;
-        try {
+            // Buscar aprendices por ficha
             const aprendices = await Aprendices.find({ id_ficha });
-
-            // Extraer los IDs de los aprendices de la ficha
-            const ids_Aprendiz = aprendices.map((aprendiz) => aprendiz._id);
+            const ids_Aprendiz = aprendices.map(aprendiz => aprendiz._id);
+    
+            // Buscar bitácoras que coincidan con la fecha y los aprendices de la ficha
             const bitacoras = await Bitacoras.find({
+                fecha,
                 id_aprendiz: { $in: ids_Aprendiz },
             });
+    
             res.json(bitacoras);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     },
-
+    
     getListarBitacorasPorEstado: async (req, res) => {
         try {
             const bitacora = await Bitacoras.find({ estado: "Asistió" });
