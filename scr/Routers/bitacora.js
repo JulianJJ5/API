@@ -11,7 +11,7 @@ router.get('/listartodo', [
     validarCampos
 ], httpBitacora.getListarTodo);
 
-router.get('/listarporfichayporfecha', [
+router.get('/listarporfichayporfecha/:id', [
     check('id_ficha', 'El ID de la ficha no es válido').isMongoId(),
     check('id_ficha').custom(bitacoraHelper.existeCodigoFicha),
     check('fecha', 'La fecha es obligatoria').notEmpty(),

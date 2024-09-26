@@ -46,7 +46,6 @@ router.post('/crearaprendiz', [
 router.put('/actualizaraprendiz/:id', [    
     check('id', 'El ID no es válido').isMongoId(),
     check('documento', 'El documento es obligatorio').notEmpty(),
-    check('documento', 'El documento solo debe contener caracteres numéricos').isNumeric(),
     check('documento', 'El documento debe contener máximo 10 caracteres').isLength({ max: 10 }),
     
     check('nombre', 'El nombre es obligatorio').notEmpty(),
@@ -57,9 +56,7 @@ router.put('/actualizaraprendiz/:id', [
     
     check('telefono', 'El teléfono es obligatorio').notEmpty(),
     check('telefono', 'El teléfono debe ser numérico').isNumeric(),
-    
-    check('estado', 'El estado solo debe contener caracteres numéricos').isNumeric(),
-    
+        
     check('id_ficha', 'La ficha a la que pertenece el aprendiz es obligatoria').notEmpty(),
     validarCampos,
     validarJWT

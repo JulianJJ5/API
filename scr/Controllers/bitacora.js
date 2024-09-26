@@ -15,8 +15,9 @@ const httpBitacora = {
 
         getListarPorFechaYFicha: async (req, res) => {
             try {
-                const { id_ficha, fecha } = req.query;
-        
+                const { id_ficha } = req.params;
+                const { fecha } = req.body;
+                
                 // Verificar que el id_ficha sea un ObjectId válido
                 if (!ObjectId.isValid(id_ficha)) {
                     return res.status(400).json({ error: 'ID de ficha no válido' });
@@ -28,7 +29,7 @@ const httpBitacora = {
                 
                 const bitacoras = await Bitacoras.find({
                     aprendiz: { $in: ids_Aprendiz },
-                    fecha: { $gte: fecha } // Asumiendo que solo usas una fecha
+                    fecha: { $gte: fecha, $lte: fecha} // Asumiendo que solo usas una fecha
                 });
         
                 res.json({ bitacoras });
