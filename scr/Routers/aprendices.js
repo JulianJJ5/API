@@ -57,9 +57,7 @@ router.put('/actualizaraprendiz/:id', [
     
     check('telefono', 'El teléfono es obligatorio').notEmpty(),
     check('telefono', 'El teléfono debe ser numérico').isNumeric(),
-    
-    check('estado', 'El estado solo debe contener caracteres numéricos').isNumeric(),
-    
+        
     check('id_ficha', 'La ficha a la que pertenece el aprendiz es obligatoria').notEmpty(),
     validarCampos,
     validarJWT
