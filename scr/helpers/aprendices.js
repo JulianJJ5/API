@@ -2,7 +2,6 @@ const Aprendices = require('../Models/Aprendices.js')
 const Fichas = require('./../Models/Fichas.js')
 const mongoose = require('mongoose');
 
-
 const aprendicesHelper = {
     existeAprendizID: async (documento) => {
         const existe = await Aprendices.findOne({ documento });

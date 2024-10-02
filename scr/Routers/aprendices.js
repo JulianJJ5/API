@@ -5,6 +5,8 @@ const { aprendicesHelper } = require(`../helpers/aprendices.js`);
 const { httpAprendiz } = require(`../Controllers/aprendices.js`);
 const { validarJWT } = require("../middlewares/validarJWT.js");
 const router = Router();
+const { upload } = require('./../Controllers/aprendices.js'); // Middleware para manejar la subida de archivos
+
 
 router.get('/listartodo', httpAprendiz.getListarTodo);
 
@@ -23,7 +25,7 @@ router.get('/listarporid/:id', [
     check('id').custom(aprendicesHelper.existeAprendizID)
 ], httpAprendiz.getListarPorId);
 
-router.post('/crearaprendiz', [
+router.post('/crearaprendiz', upload.single('firma'), [
     check('documento', 'El documento es obligatorio').notEmpty(),
     check('documento', 'El documento debe contener máximo 10 caracteres').isLength({ max: 10 }),
     check('documento', 'El documento solo debe contener caracteres numéricos').isNumeric(),

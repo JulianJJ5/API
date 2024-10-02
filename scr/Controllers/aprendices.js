@@ -1,4 +1,20 @@
 const Aprendices = require('../Models/Aprendices.js');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('./../Config/cloudinaryConfig.js');
+
+// Configurar almacenamiento en Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'firmas', // Carpeta donde se almacenarán las firmas en Cloudinary
+    allowedFormats: ['jpg', 'png'], // Formatos permitidos
+    public_id: (req, file) => {
+      return 'firma_' + Date.now(); // Renombra el archivo con un identificador único
+    },
+  },
+});
+const upload = multer({ storage: storage });
 
 //CRUAI listar todos, ficha y id
 
@@ -42,7 +58,8 @@ const httpAprendiz = {
             nombre: req.body.nombre,
             telefono: req.body.telefono,
             email: req.body.email,
-            id_ficha: req.body.id_ficha
+            id_ficha: req.body.id_ficha,
+            firma: req.file ? req.file.path : null, // URL de la firma en Cloudinary
         });
         try {
             const nuevoAprendiz = await aprendiz.save();
@@ -85,4 +102,4 @@ const httpAprendiz = {
     }
 }
 
-module.exports = { httpAprendiz };
+module.exports = { httpAprendiz, upload };
