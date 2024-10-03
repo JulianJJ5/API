@@ -11,14 +11,17 @@ router.get('/listartodo', [
     validarCampos
 ], httpBitacora.getListarTodo);
 
-router.get('/listarporfichayporfecha/:id', [
-    check('id_ficha', 'El ID de la ficha no es válido').isMongoId(),
-    check('id_ficha').custom(bitacoraHelper.existeCodigoFicha),
+router.get('/listarporficha/:id_ficha', [
+    validarJWT,
+    validarCampos
+], httpBitacora.getListarPorFicha);
+
+router.get('/listarporfecha/:fecha', [
     check('fecha', 'La fecha es obligatoria').notEmpty(),
     check('fecha', 'La fecha debe ser una fecha válida').isISO8601(),
     validarJWT,
     validarCampos
-], httpBitacora.getListarPorFechaYFicha);
+], httpBitacora.getListarPorFecha);
 
 router.get('/listarPorEstado', [
     validarJWT,
