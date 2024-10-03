@@ -1,5 +1,5 @@
 const Bitacoras = require('../Models/Bitacora.js');
-const Aprendices = require('../Models/Aprendices.js');
+const Aprendices = require('..//Models/Aprendices.js');
 const { ObjectId } = require('mongoose').Types;
 
 const httpBitacora = {
@@ -12,24 +12,21 @@ const httpBitacora = {
             }
         },
 
-
-        getListarPorFechaYFicha: async (req, res) => {
+        getListarPorFecha: async (req, res) => {
             try {
-                const { id_ficha } = req.params;
-                const { fecha } = req.body;
-                
-                // Verificar que el id_ficha sea un ObjectId válido
-                if (!ObjectId.isValid(id_ficha)) {
-                    return res.status(400).json({ error: 'ID de ficha no válido' });
-                }
+                const { fecha } = req.params;
         
-                // Realizar la búsqueda en la base de datos
-                const aprendices = await Aprendices.find({ ficha: id_ficha });
-                const ids_Aprendiz = aprendices.map(aprendiz => aprendiz._id);
-                
+                const startOfDay = new Date(fecha);
+                startOfDay.setHours(0, 0, 0, 0); // Inicio del día a las 00:00:00
+        
+                const endOfDay = new Date(fecha);
+                endOfDay.setHours(23, 59, 59, 999); // Fin del día a las 23:59:59
+        
                 const bitacoras = await Bitacoras.find({
-                    aprendiz: { $in: ids_Aprendiz },
-                    fecha: { $gte: fecha, $lte: fecha} // Asumiendo que solo usas una fecha
+                    fecha: {
+                        $gte: startOfDay,
+                        $lte: endOfDay
+                    }
                 });
         
                 res.json({ bitacoras });
@@ -37,6 +34,34 @@ const httpBitacora = {
                 res.status(400).json({ error });
             }
         },
+
+        getListarPorFicha: async (req, res) => {
+            const { id_ficha } = req.params; // Asegúrate de que se extraiga correctamente
+            try {
+                // Primero, obtenemos todos los aprendices que están en la ficha proporcionada
+                const aprendicesEnFicha = await Aprendices.find({ id_ficha }) // Asegúrate de que el campo sea id_ficha
+                    .exec();
+        
+                console.log('id_ficha:', id_ficha);
+                
+                // Verifica si se encontraron aprendices
+                if (!aprendicesEnFicha.length) {
+                    return res.status(404).json({ message: 'No se encontraron aprendices en esta ficha.' });
+                }
+        
+                // Luego, buscamos las bitácoras que tienen los id_aprendiz que hemos encontrado
+                const bitacoras = await Bitacoras.find({ id_aprendiz: { $in: aprendicesEnFicha.map(aprendiz => aprendiz._id) } })
+                    .populate('id_aprendiz') // Poblar otros campos si es necesario
+                    .exec();
+        
+                // Envía ambas listas como respuesta
+                res.json({ aprendices: aprendicesEnFicha, bitacoras });
+            } catch (error) {
+                console.error("Error al obtener las bitácoras:", error);
+                res.status(500).json({ message: 'Error al obtener las bitácoras', error });
+            }
+        },
+        
 
     getListarBitacorasPorEstado: async (req, res) => {
         try {
