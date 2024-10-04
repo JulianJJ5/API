@@ -6,6 +6,7 @@ const Usuarios = require('./scr/Routers/usuarios.js')
 const Fichas = require('./scr/Routers/fichas.js')
 const Aprendices = require('./scr/Routers/aprendices.js') 
 const Bitacoras = require('./scr/Routers/bitacora.js')
+const variableVacia = ''
 
 const app = express()
 

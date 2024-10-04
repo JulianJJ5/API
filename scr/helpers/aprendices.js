@@ -1,6 +1,8 @@
 const Aprendices = require('../Models/Aprendices.js')
 const Fichas = require('./../Models/Fichas.js')
 const mongoose = require('mongoose');
+const variableVacia = ''
+
 
 const aprendicesHelper = {
     existeAprendizID: async (documento) => {

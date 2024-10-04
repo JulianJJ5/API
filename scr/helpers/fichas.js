@@ -1,4 +1,6 @@
 const Fichas = require('../Models/Fichas.js')
+const variableVacia = ''
+
 
 const FichasHelper = {
     existeFichaId: async (res, req) => {

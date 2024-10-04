@@ -1,4 +1,5 @@
 const Fichas = require('../Models/Fichas')
+const variableVacia = ''
 
 // CRUIA
 

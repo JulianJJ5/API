@@ -1,5 +1,7 @@
 const bitacora = require('../Models/Bitacora.js')
 const Fichas = require('./../Models/Fichas')
+const variableVacia = ''
+
 
 const bitacoraHelper = {
     existeCodigoFicha: async (id_ficha) => {

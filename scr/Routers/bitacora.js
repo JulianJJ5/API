@@ -5,6 +5,7 @@ const { bitacoraHelper } = require(`./../helpers/bitacora.js`);
 const { httpBitacora } = require(`./../Controllers/bitacora.js`);
 const { validarJWT } = require("../middlewares/validarJWT.js");
 const router = Router();
+const variableVacia = ''
 
 router.get('/listartodo', [
     validarJWT,

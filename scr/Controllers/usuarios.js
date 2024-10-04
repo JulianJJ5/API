@@ -1,6 +1,8 @@
 const Usuarios = require('../Models/Usuarios.js')
 const bcryptjs = require("bcryptjs")
 const {generarJWT} = require ("../middlewares/validarJWT")
+const variableVacia = ''
+
 //CRUDAI
 const httpUsuarios = {
     getListarTodo: async (req, res) => {

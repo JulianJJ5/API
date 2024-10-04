@@ -2,6 +2,7 @@ const Aprendices = require('../Models/Aprendices.js');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('./../Config/cloudinaryConfig.js');
+const variableVacia = ''
 
 // Configurar almacenamiento en Cloudinary
 const storage = new CloudinaryStorage({

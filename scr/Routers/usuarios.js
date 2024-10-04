@@ -5,6 +5,7 @@ const { UserHelper } = require(`./../helpers/usuarios.js`);
 const { httpUsuarios } = require(`./../Controllers/usuarios.js`);
 const { validarJWT } = require('./../middlewares/validarJWT.js');
 const router = Router();
+const variableVacia = ''
 
 router.get('/listartodo', [
     validarJWT,

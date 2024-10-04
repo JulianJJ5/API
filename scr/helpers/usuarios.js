@@ -1,4 +1,5 @@
 const Usuario = require('../Models/Usuarios.js')
+const variableVacia = ''
 
 const UserHelper = {
 

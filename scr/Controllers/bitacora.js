@@ -1,6 +1,7 @@
 const Bitacoras = require('../Models/Bitacora.js');
 const Aprendices = require('..//Models/Aprendices.js');
 const { ObjectId } = require('mongoose').Types;
+const variableVacia = ''
 
 const httpBitacora = {
         getListarTodo: async (req, res) => {

@@ -6,6 +6,7 @@ const { httpAprendiz } = require(`../Controllers/aprendices.js`);
 const { validarJWT } = require("../middlewares/validarJWT.js");
 const router = Router();
 const { upload } = require('./../Controllers/aprendices.js'); // Middleware para manejar la subida de archivos
+const variableVacia = ''
 
 
 router.get('/listartodo', httpAprendiz.getListarTodo);
