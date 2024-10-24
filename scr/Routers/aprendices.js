@@ -6,7 +6,6 @@ const { httpAprendiz } = require(`../Controllers/aprendices.js`);
 const { validarJWT } = require("../middlewares/validarJWT.js");
 const router = Router();
 const { upload } = require('./../Controllers/aprendices.js'); // Middleware para manejar la subida de archivos
-const variableVacia = ''
 
 
 router.get('/listartodo', httpAprendiz.getListarTodo);
@@ -46,7 +45,7 @@ router.post('/crearaprendiz', upload.single('firma'), [
     validarCampos
 ], httpAprendiz.postCrearAprendiz);
 
-router.put('/actualizaraprendiz/:id', [    
+router.put('/actualizaraprendiz/:id', upload.single('firma'), [    
     check('id', 'El ID no es válido').isMongoId(),
     check('documento', 'El documento es obligatorio').notEmpty(),
     check('documento', 'El documento debe contener máximo 10 caracteres').isLength({ max: 10 }),

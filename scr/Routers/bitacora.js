@@ -5,7 +5,6 @@ const { bitacoraHelper } = require(`./../helpers/bitacora.js`);
 const { httpBitacora } = require(`./../Controllers/bitacora.js`);
 const { validarJWT } = require("../middlewares/validarJWT.js");
 const router = Router();
-const variableVacia = ''
 
 router.get('/listartodo', [
     validarJWT,
@@ -41,7 +40,11 @@ router.post('/crearBitacora', [
     check('id_aprendiz', 'El ID del aprendiz es obligatorio').notEmpty(),
     check('fecha', 'La fecha es obligatoria').notEmpty(),
     check('fecha', 'La fecha debe ser una fecha válida').isISO8601(),
-    validarCampos
+    check('id_aprendiz').custom(async (id_aprendiz, { req }) => {
+        await bitacoraHelper.yaExisteBitacoraHoy(req.body.fecha, id_aprendiz);
+        return true;
+    }),
+        validarCampos
 ], httpBitacora.postCrearBitacora);
 
 router.put('/actualizarEstado/:id', [

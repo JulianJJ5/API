@@ -72,16 +72,32 @@ const httpAprendiz = {
 
     putActualizarAprendiz: async (req, res) => {
         const { id } = req.params;
+    
+        // Preparar los datos para la actualización
+        const aprendizActualizado = {
+            documento: req.body.documento,
+            nombre: req.body.nombre,
+            telefono: req.body.telefono,
+            email: req.body.email,
+            id_ficha: req.body.id_ficha,
+            firma: req.file ? req.file.path : req.body.firma,  // Si hay un archivo nuevo de firma, lo actualiza, si no, mantiene la existente
+        };
+    
         try {
-            const aprendiz = await Aprendices.findByIdAndUpdate(id, req.body, {
-                new: true,
-            });
-            res.json(aprendiz)
+            // Buscar y actualizar el aprendiz
+            const aprendiz = await Aprendices.findByIdAndUpdate(id, aprendizActualizado, { new: true });
+    
+            if (!aprendiz) {
+                return res.status(404).json({ message: 'Aprendiz no encontrado' });
+            }
+    
+            // Devolver la respuesta con el aprendiz actualizado
+            res.json(aprendiz);
         } catch (error) {
-            res.json({ message: error.message })
+            res.status(400).json({ message: error.message });
         }
     },
-
+    
     putActivarAprendiz: async (req, res) => {
         const { id } = req.params
         try {
