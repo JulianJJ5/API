@@ -18,10 +18,10 @@ const httpBitacora = {
                 const { fecha } = req.params;
         
                 const startOfDay = new Date(fecha);
-                startOfDay.setHours(0, 0, 0, 0); // Inicio del día a las 00:00:00
+                startOfDay.setUTCHours(0, 0, 0, 0); // Inicio del día a las 00:00:00
         
                 const endOfDay = new Date(fecha);
-                endOfDay.setHours(23, 59, 59, 999); // Fin del día a las 23:59:59
+                endOfDay.setUTCHours(23, 59, 59, 999); // Fin del día a las 23:59:59
         
                 const bitacoras = await Bitacoras.find({
                     fecha: {
